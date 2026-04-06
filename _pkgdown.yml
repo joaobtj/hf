@@ -1,4 +1,29 @@
-url: ~
+url: https://joaobtj.github.io/hf/
+
 template:
   bootstrap: 5
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [github]
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: "🇺🇸 English"
+      - text: "Hazen-Williams Head Loss"
+        href: articles/hazen-williams-en.html
+      - text: "---"
+      - text: "🇧🇷 Português"
+      - text: "Perda de Carga de Hazen-Williams"
+        href: articles/hazen-williams-pt.html
+
+reference:
+- title: "Hazen-Williams Equations"
+  desc: "Functions to calculate head loss, diameter, and flow using the empirical Hazen-Williams formula."
+  contents:
+  - calc_head_loss_hw
+  - calc_diameter_hw
+  - calc_flow_hw
 
