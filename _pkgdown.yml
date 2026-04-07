@@ -14,10 +14,14 @@ navbar:
       - text: "🇺🇸 English"
       - text: "Hazen-Williams Head Loss"
         href: articles/hazen-williams-en.html
+      - text: "Darcy-Weisbach Equations"
+        href: articles/darcy-weisbach-en.html
       - text: "---"
       - text: "🇧🇷 Português"
       - text: "Perda de Carga de Hazen-Williams"
         href: articles/hazen-williams-pt.html
+      - text: "Equações de Darcy-Weisbach"
+        href: articles/darcy-weisbach-pt.html
 
 reference:
 - title: "Hazen-Williams Equations"
@@ -26,4 +30,11 @@ reference:
   - calc_head_loss_hw
   - calc_diameter_hw
   - calc_flow_hw
-
+- title: "Darcy-Weisbach Equations"
+  desc: "Universal head loss calculations and friction factor solvers using functional programming."
+  contents:
+  - calc_head_loss_darcy
+  - calc_diameter_darcy
+  - calc_flow_darcy
+  - calc_friction_cw
+  - calc_friction_sj
