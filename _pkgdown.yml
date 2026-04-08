@@ -1,40 +1,48 @@
 url: https://joaobtj.github.io/hf/
-
 template:
   bootstrap: 5
-
 navbar:
   structure:
-    left:  [intro, reference, articles, news]
-    right: [github]
+    left:
+    - intro
+    - reference
+    - articles
+    - app
+    - news
+    right: github
   components:
+    app:
+      text: "\U0001F4BB Head loss calculator"
+      href: app/index.html
     articles:
       text: Articles
       menu:
-      - text: "🇺🇸 English"
-      - text: "Hazen-Williams Head Loss"
+      - text: "\U0001F1FA\U0001F1F8 English"
+      - text: Hazen-Williams Head Loss
         href: articles/hazen-williams-en.html
-      - text: "Darcy-Weisbach Equations"
+      - text: Darcy-Weisbach Equations
         href: articles/darcy-weisbach-en.html
-      - text: "---"
-      - text: "🇧🇷 Português"
-      - text: "Perda de Carga de Hazen-Williams"
+      - text: '---'
+      - text: "\U0001F1E7\U0001F1F7 Português"
+      - text: Perda de Carga de Hazen-Williams
         href: articles/hazen-williams-pt.html
-      - text: "Equações de Darcy-Weisbach"
+      - text: Equações de Darcy-Weisbach
         href: articles/darcy-weisbach-pt.html
-
 reference:
-- title: "Hazen-Williams Equations"
-  desc: "Functions to calculate head loss, diameter, and flow using the empirical Hazen-Williams formula."
+- title: Hazen-Williams Equations
+  desc: Functions to calculate head loss, diameter, and flow using the empirical Hazen-Williams
+    formula.
   contents:
   - calc_head_loss_hw
   - calc_diameter_hw
   - calc_flow_hw
-- title: "Darcy-Weisbach Equations"
-  desc: "Universal head loss calculations and friction factor solvers using functional programming."
+- title: Darcy-Weisbach Equations
+  desc: Universal head loss calculations and friction factor solvers using functional
+    programming.
   contents:
   - calc_head_loss_darcy
   - calc_diameter_darcy
   - calc_flow_darcy
   - calc_friction_cw
   - calc_friction_sj
+

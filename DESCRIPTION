@@ -5,8 +5,7 @@ Authors@R:
     person("Joao Batista", "Tolentino Jr.", , "joao.tolentino@ufsc.br", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-1303-4202"))
 Description: Provides simple and efficient functions to calculate head
-    loss in pipes using standard hydraulic equations. Built entirely on
-    base R for maximum performance and zero dependencies.
+    loss in pipes using standard hydraulic equations.
 License: MIT + file LICENSE
 Depends: 
     R (>= 4.1.0)
@@ -14,7 +13,7 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-URL: https://github.com/joaobtj/hf
+URL: https://github.com/joaobtj/hf, https://joaobtj.github.io/hf/
 BugReports: https://github.com/joaobtj/hf/issues
 Suggests: 
     knitr,
