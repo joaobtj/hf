@@ -43,6 +43,10 @@ jobs:
       - name: Build site and export Shinylive
         run: |
           pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+
+          # Force installation from R-universe so Shinylive can locate the Wasm binary
+          install.packages("hf", repos = c("https://joaobtj.r-universe.dev", "https://cloud.r-project.org"))
+
           shinylive::export("inst/app", "_site/app")
         shell: Rscript {0}
 

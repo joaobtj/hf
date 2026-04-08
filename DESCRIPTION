@@ -16,8 +16,11 @@ RoxygenNote: 7.3.3
 URL: https://github.com/joaobtj/hf, https://joaobtj.github.io/hf/
 BugReports: https://github.com/joaobtj/hf/issues
 Suggests: 
+    bsicons,
+    bslib,
     knitr,
     rmarkdown,
+    shiny,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
