@@ -47,7 +47,7 @@ jobs:
           # Force installation from R-universe so Shinylive can locate the Wasm binary
           install.packages("hf", repos = c("https://joaobtj.r-universe.dev", "https://cloud.r-project.org"))
 
-          shinylive::export("inst/app", "_site/app")
+          shinylive::export("inst/app", "docs/app")
         shell: Rscript {0}
 
       - name: Upload Pages artifact
