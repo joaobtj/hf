@@ -1,0 +1,94 @@
+---
+title: "Equações de Darcy-Weisbach"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Equações de Darcy-Weisbach}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(hf)
+```
+
+
+
+## Introdução
+
+A equação de Darcy-Weisbach é a fórmula universal e teoricamente mais rigorosa para o cálculo da perda de carga em condutos forçados. Ao contrário de fórmulas empíricas como a de Hazen-Williams, a equação de Darcy-Weisbach é aplicável a **qualquer fluido** e **qualquer regime de escoamento** (laminar, transição ou turbulento).
+
+No pacote `hf`, a equação baseia-se na vazão volumétrica ($Q$):
+
+$$h_f = f \frac{8 L Q^2}{\pi^2 g D^5}$$
+
+Em que:
+
+* $h_f$: Perda de carga distribuída (m)
+* $f$: Fator de atrito de Darcy (adimensional)
+* $L$: Comprimento da tubulação (m)
+* $Q$: Vazão volumétrica ($m^3/s$)
+* $D$: Diâmetro interno (m)
+* $g$: Aceleração da gravidade ($m/s^2$)
+
+
+
+## 1. O Fator de Atrito ($f$)
+
+O fator de atrito depende do Número de Reynolds e da rugosidade relativa do tubo. O pacote `hf` fornece duas funções distintas para calculá-lo:
+
+* `calc_friction_cw()`: Utiliza a equação implícita de **Colebrook-White** (padrão). Encontra a raiz exata iterativamente.
+* `calc_friction_sj()`: Utiliza a equação explícita de **Swamee-Jain**, uma aproximação de alta precisão que não requer iteração.
+
+```{r fator_atrito}
+# Parâmetros do escoamento
+Re <- 100000        # Número de Reynolds
+e <- 0.00026        # Rugosidade absoluta (m)
+D <- 0.1            # Diâmetro (m)
+
+# Comparando ambos os métodos
+calc_friction_cw(reynolds = Re, roughness = e, diameter = D)
+calc_friction_sj(reynolds = Re, roughness = e, diameter = D)
+```
+
+## 2. Calculando a Perda de Carga com Injeção Funcional
+
+A função `calc_head_loss_darcy` calcula a perda, mas você pode "injetar" a função de atrito que deseja utilizar através do argumento `friction_fun`.
+
+```{r perda_carga}
+# 1. Padrão (Usa Colebrook-White automaticamente)
+calc_head_loss_darcy(
+  length = 100, flow = 0.02, diameter = 0.1, roughness = 0.00026
+)
+
+# 2. Injeção Funcional (Usando Swamee-Jain)
+calc_head_loss_darcy(
+  length = 100, flow = 0.02, diameter = 0.1, roughness = 0.00026,
+  friction_fun = calc_friction_sj
+)
+
+# 3. Valor Direto (Se você já calculou o fator de atrito)
+calc_head_loss_darcy(
+  length = 100, flow = 0.02, diameter = 0.1, friction_factor = 0.025
+)
+```
+
+## 3. Calculando Diâmetro e Vazão
+
+Como o fator de atrito cria uma dependência circular matemática, o pacote `hf` utiliza solucionadores numéricos internos (`uniroot`) para encontrar os valores exatos de diâmetro e vazão. A injeção funcional também funciona nestas funções.
+
+```{r solucionadores}
+# Calcular o diâmetro necessário para uma perda de 8.56m
+calc_diameter_darcy(
+  loss = 8.56, length = 100, flow = 0.02, roughness = 0.00026
+)
+
+# Calcular a vazão máxima para a mesma perda de carga
+calc_flow_darcy(
+  loss = 8.56, length = 100, diameter = 0.1, roughness = 0.00026
+)
+```
