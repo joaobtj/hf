@@ -10,7 +10,7 @@ calc_head_loss_darcy(
   diameter,
   roughness = NULL,
   friction_factor = NULL,
-  friction_fun = calc_friction_cw,
+  friction_fun = NULL,
   viscosity = 1.004e-06,
   gravity = 9.81
 )
@@ -26,7 +26,7 @@ calc_head_loss_darcy(
 
 \item{friction_factor}{Numeric. An optional pre-calculated Darcy friction factor. If provided, \code{roughness} and \code{friction_fun} are ignored.}
 
-\item{friction_fun}{Function. A function to calculate the friction factor. It must accept \code{reynolds}, \code{roughness}, and \code{diameter} as arguments. Defaults to \code{calc_friction_cw}.}
+\item{friction_fun}{Function. A function to calculate the friction factor (must accept \code{reynolds}, \code{roughness}, and \code{diameter}). If \code{NULL} (the default), it uses \code{calc_friction_cw}.}
 
 \item{viscosity}{Numeric. Kinematic viscosity of the fluid (sq. meters per sec). Default is 1.004e-6.}
 

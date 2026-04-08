@@ -22,8 +22,13 @@
 #'
 calc_diameter_darcy <- Vectorize(
   function(loss, length, flow, roughness,
-           friction_fun = calc_friction_cw,
+           friction_fun = NULL,
            viscosity = 1.004e-6, gravity = 9.81) {
+    # Default to Colebrook-White if no function is provided
+    if (is.null(friction_fun)) {
+      friction_fun <- calc_friction_cw
+    }
+
     # Objective function: Calculates the difference between expected and actual head loss
     obj_fun <- function(d) {
       calc_head_loss_darcy(

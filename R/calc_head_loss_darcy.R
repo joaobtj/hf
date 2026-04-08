@@ -10,7 +10,7 @@
 #' @param diameter Numeric. The internal diameter of the pipe (meters).
 #' @param roughness Numeric. The absolute internal roughness of the pipe (meters). Required unless `friction_factor` is provided.
 #' @param friction_factor Numeric. An optional pre-calculated Darcy friction factor. If provided, `roughness` and `friction_fun` are ignored.
-#' @param friction_fun Function. A function to calculate the friction factor. It must accept `reynolds`, `roughness`, and `diameter` as arguments. Defaults to `calc_friction_cw`.
+#' @param friction_fun Function. A function to calculate the friction factor (must accept `reynolds`, `roughness`, and `diameter`). If `NULL` (the default), it uses `calc_friction_cw`.
 #' @param viscosity Numeric. Kinematic viscosity of the fluid (sq. meters per sec). Default is 1.004e-6.
 #' @param gravity Numeric. Acceleration due to gravity (meters per second squared). Default is 9.81.
 #'
@@ -35,8 +35,13 @@
 #'
 calc_head_loss_darcy <- function(length, flow, diameter, roughness = NULL,
                                  friction_factor = NULL,
-                                 friction_fun = calc_friction_cw,
+                                 friction_fun = NULL,
                                  viscosity = 1.004e-6, gravity = 9.81) {
+  # Default to Colebrook-White if no function is provided
+  if (is.null(friction_fun)) {
+    friction_fun <- calc_friction_cw
+  }
+
   # Calculate friction factor dynamically if not directly provided
   if (is.null(friction_factor)) {
     if (is.null(roughness)) {

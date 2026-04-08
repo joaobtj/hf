@@ -9,7 +9,7 @@ calc_diameter_darcy(
   length,
   flow,
   roughness,
-  friction_fun = calc_friction_cw,
+  friction_fun = NULL,
   viscosity = 1.004e-06,
   gravity = 9.81
 )
@@ -23,7 +23,7 @@ calc_diameter_darcy(
 
 \item{roughness}{Numeric. The absolute internal roughness of the pipe (meters). Required unless \code{friction_factor} is provided.}
 
-\item{friction_fun}{Function. A function to calculate the friction factor. It must accept \code{reynolds}, \code{roughness}, and \code{diameter} as arguments. Defaults to \code{calc_friction_cw}.}
+\item{friction_fun}{Function. A function to calculate the friction factor (must accept \code{reynolds}, \code{roughness}, and \code{diameter}). If \code{NULL} (the default), it uses \code{calc_friction_cw}.}
 
 \item{viscosity}{Numeric. Kinematic viscosity of the fluid (sq. meters per sec). Default is 1.004e-6.}
 
