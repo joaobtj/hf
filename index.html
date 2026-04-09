@@ -56,7 +56,83 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9">
-Provides simple and efficient functions to calculate head loss in pipes using standard hydraulic equations.
+<!-- badges: end -->
+<div class="section level1">
+<div class="page-header"><h1 id="hf-head-loss-calculations-for-pipelines">hf: Head Loss Calculations for Pipelines<a class="anchor" aria-label="anchor" href="#hf-head-loss-calculations-for-pipelines"></a>
+</h1></div>
+<p>The <strong>hf</strong> package provides simple, efficient, and mathematically rigorous functions to calculate friction head loss, flow rate, and required pipe diameters using standard hydraulic equations.</p>
+<p>It fully supports the universal <strong>Darcy-Weisbach</strong> equation (with Colebrook-White, Swamee-Jain, and other friction factors) and empirical equations (such as <strong>Hazen-Williams</strong> and <strong>Flamant</strong>), making it an ideal tool for agronomic and engineering hydraulic designs.</p>
+<div class="section level2">
+<h2 id="id_-interactive-web-application">🚀 Interactive Web Application<a class="anchor" aria-label="anchor" href="#id_-interactive-web-application"></a>
+</h2>
+<p>You can try the package directly in your browser without installing R! The <code>hf</code> package includes a serverless Shiny application powered by WebAssembly (<code>shinylive</code>), allowing you to perform complex hydraulic calculations on the fly.</p>
+<p><strong>With the interactive app, you can:</strong></p>
+<ul>
+<li>
+<strong>Solve for any variable:</strong> Instantly calculate Head Loss, Flow Rate, or Required Pipe Diameter based on your system parameters.</li>
+<li>
+<strong>Compare Methods:</strong> Switch seamlessly between the universal Darcy-Weisbach equation (testing both Colebrook-White and Swamee-Jain factors) and the empirical Hazen-Williams formula.</li>
+<li>
+<strong>Visualize System Dynamics:</strong> View automatically generated plots, including <strong>System Curves</strong> (Head Loss vs. Flow Rate) and <strong>Friction Sensitivity</strong> (Head Loss vs. Pipe Diameter) to understand how your pipeline behaves.</li>
+<li>
+<strong>Zero Installation:</strong> The app runs entirely client-side in your browser with no R backend required.</li>
+</ul>
+<p>👉 <strong><a href="https://joaobtj.github.io/hf/app/">Try the hf Hydraulic Calculator</a></strong></p>
+</div>
+<div class="section level2">
+<h2 id="id_-installation">📦 Installation<a class="anchor" aria-label="anchor" href="#id_-installation"></a>
+</h2>
+<p>You can install the development version of <code>hf</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"joaobtj/hf"</span><span class="op">)</span></span></code></pre></div>
+<p>Alternatively, you can install it via R-Universe:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hf"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://joaobtj.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="id_-usage">💡 Usage<a class="anchor" aria-label="anchor" href="#id_-usage"></a>
+</h2>
+<div class="section level3">
+<h3 id="darcy-weisbach-equation">Darcy-Weisbach Equation<a class="anchor" aria-label="anchor" href="#darcy-weisbach-equation"></a>
+</h3>
+<p>The universal Darcy-Weisbach method allows for the calculation of head loss using different friction factor functions. By default, it uses the implicit Colebrook-White equation.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joaobtj/hf" class="external-link">hf</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calculate head loss (m) for a 100m pipe, 0.02 m³/s flow, 0.1m diameter</span></span>
+<span><span class="fu"><a href="reference/calc_head_loss_darcy.html">calc_head_loss_darcy</a></span><span class="op">(</span></span>
+<span>  length <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  flow <span class="op">=</span> <span class="fl">0.02</span>,</span>
+<span>  diameter <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  roughness <span class="op">=</span> <span class="fl">0.00026</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 8.513127</span></span>
+<span></span>
+<span><span class="co"># Use functional injection to apply the Swamee-Jain approximation</span></span>
+<span><span class="fu"><a href="reference/calc_head_loss_darcy.html">calc_head_loss_darcy</a></span><span class="op">(</span></span>
+<span>  length <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  flow <span class="op">=</span> <span class="fl">0.02</span>,</span>
+<span>  diameter <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  roughness <span class="op">=</span> <span class="fl">0.00026</span>,</span>
+<span>  friction_fun <span class="op">=</span> <span class="va">calc_friction_sj</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 8.55815</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="id_-documentation">📖 Documentation<a class="anchor" aria-label="anchor" href="#id_-documentation"></a>
+</h2>
+<p>For full documentation and bilingual tutorials (English and Portuguese), visit the package website: <strong><a href="https://joaobtj.github.io/hf/">joaobtj.github.io/hf</a></strong></p>
+</div>
+<div class="section level2">
+<h2 id="id_-citation--contact">🤝 Citation &amp; Contact<a class="anchor" aria-label="anchor" href="#id_-citation--contact"></a>
+</h2>
+<p>Author: Joao Batista Tolentino Jr. (UFSC - Campus Curitibanos)<br>
+Contact: <a href="mailto:joao.tolentino@ufsc.br" class="email">joao.tolentino@ufsc.br</a> | ORCID: <a href="https://orcid.org/0000-0003-1303-4202" class="external-link">0000-0003-1303-4202</a></p>
+</div>
+</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -88,7 +164,16 @@ Provides simple and efficient functions to calculate head loss in pipes using st
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/joaobtj/hf/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/joaobtj/hf/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://joaobtj.github.io/hf/"><img src="https://github.com/joaobtj/hf/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
+<li><a href="https://joaobtj.r-universe.dev" class="external-link"><img src="https://joaobtj.r-universe.dev/badges/hf" alt="hf status badge"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

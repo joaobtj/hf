@@ -1,2 +1,93 @@
-Provides simple and efficient functions to calculate head loss in pipes
-using standard hydraulic equations.
+# hf: Head Loss Calculations for Pipelines
+
+The **hf** package provides simple, efficient, and mathematically
+rigorous functions to calculate friction head loss, flow rate, and
+required pipe diameters using standard hydraulic equations.
+
+It fully supports the universal **Darcy-Weisbach** equation (with
+Colebrook-White, Swamee-Jain, and other friction factors) and empirical
+equations (such as **Hazen-Williams** and **Flamant**), making it an
+ideal tool for agronomic and engineering hydraulic designs.
+
+## 🚀 Interactive Web Application
+
+You can try the package directly in your browser without installing R!
+The `hf` package includes a serverless Shiny application powered by
+WebAssembly (`shinylive`), allowing you to perform complex hydraulic
+calculations on the fly.
+
+**With the interactive app, you can:**
+
+- **Solve for any variable:** Instantly calculate Head Loss, Flow Rate,
+  or Required Pipe Diameter based on your system parameters.
+- **Compare Methods:** Switch seamlessly between the universal
+  Darcy-Weisbach equation (testing both Colebrook-White and Swamee-Jain
+  factors) and the empirical Hazen-Williams formula.
+- **Visualize System Dynamics:** View automatically generated plots,
+  including **System Curves** (Head Loss vs. Flow Rate) and **Friction
+  Sensitivity** (Head Loss vs. Pipe Diameter) to understand how your
+  pipeline behaves.
+- **Zero Installation:** The app runs entirely client-side in your
+  browser with no R backend required.
+
+👉 **[Try the hf Hydraulic
+Calculator](https://joaobtj.github.io/hf/app/)**
+
+## 📦 Installation
+
+You can install the development version of `hf` from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("joaobtj/hf")
+```
+
+Alternatively, you can install it via R-Universe:
+
+``` r
+install.packages("hf", repos = c("https://joaobtj.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+## 💡 Usage
+
+### Darcy-Weisbach Equation
+
+The universal Darcy-Weisbach method allows for the calculation of head
+loss using different friction factor functions. By default, it uses the
+implicit Colebrook-White equation.
+
+``` r
+library(hf)
+
+# Calculate head loss (m) for a 100m pipe, 0.02 m³/s flow, 0.1m diameter
+calc_head_loss_darcy(
+  length = 100,
+  flow = 0.02,
+  diameter = 0.1,
+  roughness = 0.00026
+)
+#> [1] 8.513127
+
+# Use functional injection to apply the Swamee-Jain approximation
+calc_head_loss_darcy(
+  length = 100,
+  flow = 0.02,
+  diameter = 0.1,
+  roughness = 0.00026,
+  friction_fun = calc_friction_sj
+)
+#> [1] 8.55815
+```
+
+## 📖 Documentation
+
+For full documentation and bilingual tutorials (English and Portuguese),
+visit the package website:
+**[joaobtj.github.io/hf](https://joaobtj.github.io/hf/)**
+
+## 🤝 Citation & Contact
+
+Author: Joao Batista Tolentino Jr. (UFSC - Campus Curitibanos)  
+Contact: <joao.tolentino@ufsc.br> \| ORCID:
+[0000-0003-1303-4202](https://orcid.org/0000-0003-1303-4202)
