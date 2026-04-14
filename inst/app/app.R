@@ -22,14 +22,17 @@ ui <- page_sidebar(
                             "Diameter" = "diameter")),
 
     selectInput("eq_type", "Equation",
-                choices = c("Darcy-Weisbach" = "dw", "Hazen-Williams" = "hw"),
+                choices = c("Darcy-Weisbach" = "dw",
+                            "Hazen-Williams" = "hw",
+                            "Flamant" = "fl"),
                 selected = "dw"),
 
     conditionalPanel(
       condition = "input.eq_type == 'dw'",
       selectInput("f_method", "Friction Factor Method",
                   choices = c("Colebrook-White (Exact)" = "cw",
-                              "Swamee-Jain (Fast)" = "sj"))
+                              "Swamee-Jain (Fast)" = "sj",
+                              "Blasius (Smooth Pipes)" = "bl"))
     ),
 
     hr(),
@@ -54,6 +57,11 @@ ui <- page_sidebar(
     conditionalPanel(
       condition = "input.eq_type == 'hw'",
       numericInput("c_coef", "Roughness Coefficient (C)", value = 140)
+    ),
+
+    conditionalPanel(
+      condition = "input.eq_type == 'fl'",
+      numericInput("b_coef", "Flamant Coefficient (b)", value = 0.000135, step = 0.000001)
     ),
 
     conditionalPanel(
@@ -111,9 +119,19 @@ server <- function(input, output, session) {
                     "loss" = calc_head_loss_hw(length = input$length, flow = input$flow, diameter = input$diameter, coef = input$c_coef),
                     "flow" = calc_flow_hw(loss = input$head_loss, length = input$length, diameter = input$diameter, coef = input$c_coef),
                     "diameter" = calc_diameter_hw(loss = input$head_loss, length = input$length, flow = input$flow, coef = input$c_coef))
+    } else if (input$eq_type == "fl") {
+      req(input$b_coef)
+      val <- switch(input$target_var,
+                    "loss" = calc_head_loss_flamant(length = input$length, flow = input$flow, diameter = input$diameter, coef = input$b_coef),
+                    "flow" = calc_flow_flamant(loss = input$head_loss, length = input$length, diameter = input$diameter, coef = input$b_coef),
+                    "diameter" = calc_diameter_flamant(loss = input$head_loss, length = input$length, flow = input$flow, coef = input$b_coef))
     } else {
       req(input$roughness)
-      f_fun <- if (input$f_method == "cw") calc_friction_cw else calc_friction_sj
+      f_fun <- switch(input$f_method,
+                      "cw" = calc_friction_cw,
+                      "sj" = calc_friction_sj,
+                      "bl" = calc_friction_blasius)
+
       val <- switch(input$target_var,
                     "loss" = calc_head_loss_darcy(length = input$length, flow = input$flow, diameter = input$diameter, roughness = input$roughness, friction_fun = f_fun),
                     "flow" = calc_flow_darcy(loss = input$head_loss, length = input$length, diameter = input$diameter, roughness = input$roughness, friction_fun = f_fun),
@@ -143,8 +161,13 @@ server <- function(input, output, session) {
 
     if (input$eq_type == "hw") {
       y_seq <- calc_head_loss_hw(length = input$length, flow = flow_seq, diameter = op$op_diam, coef = input$c_coef)
+    } else if (input$eq_type == "fl") {
+      y_seq <- calc_head_loss_flamant(length = input$length, flow = flow_seq, diameter = op$op_diam, coef = input$b_coef)
     } else {
-      f_fun <- if (input$f_method == "cw") calc_friction_cw else calc_friction_sj
+      f_fun <- switch(input$f_method,
+                      "cw" = calc_friction_cw,
+                      "sj" = calc_friction_sj,
+                      "bl" = calc_friction_blasius)
       y_seq <- calc_head_loss_darcy(length = input$length, flow = flow_seq, diameter = op$op_diam, roughness = input$roughness, friction_fun = f_fun)
     }
 
@@ -166,8 +189,13 @@ server <- function(input, output, session) {
 
     if (input$eq_type == "hw") {
       y_seq <- calc_head_loss_hw(length = input$length, flow = op$op_flow, diameter = diam_seq, coef = input$c_coef)
+    } else if (input$eq_type == "fl") {
+      y_seq <- calc_head_loss_flamant(length = input$length, flow = op$op_flow, diameter = diam_seq, coef = input$b_coef)
     } else {
-      f_fun <- if (input$f_method == "cw") calc_friction_cw else calc_friction_sj
+      f_fun <- switch(input$f_method,
+                      "cw" = calc_friction_cw,
+                      "sj" = calc_friction_sj,
+                      "bl" = calc_friction_blasius)
       y_seq <- calc_head_loss_darcy(length = input$length, flow = op$op_flow, diameter = diam_seq, roughness = input$roughness, friction_fun = f_fun)
     }
 
