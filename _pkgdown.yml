@@ -17,17 +17,25 @@ navbar:
     articles:
       text: Articles
       menu:
-      - text: "\U0001F1FA\U0001F1F8 English"
+      - text: "🇺🇸 English"
       - text: Hazen-Williams Head Loss
         href: articles/hazen-williams-en.html
+      - text: Flamant Head Loss
+        href: articles/flamant-en.html
       - text: Darcy-Weisbach Equations
         href: articles/darcy-weisbach-en.html
+      - text: Friction Factors
+        href: articles/friction-en.html
       - text: '---'
-      - text: "\U0001F1E7\U0001F1F7 Português"
+      - text: "🇧🇷 Português"
       - text: Perda de Carga de Hazen-Williams
         href: articles/hazen-williams-pt.html
+      - text: Perda de Carga de Flamant
+        href: articles/flamant-pt.html
       - text: Equações de Darcy-Weisbach
         href: articles/darcy-weisbach-pt.html
+      - text: Fatores de Atrito no Pacote hf
+        href: articles/friction-pt.html
 reference:
 - title: Hazen-Williams Equations
   desc: Functions to calculate head loss, diameter, and flow using the empirical Hazen-Williams
@@ -36,6 +44,12 @@ reference:
   - calc_head_loss_hw
   - calc_diameter_hw
   - calc_flow_hw
+- title: Flamant Equations
+  desc: Functions to calculate head loss, diameter, and flow for small-diameter pipes using the empirical Flamant formula.
+  contents:
+  - calc_head_loss_flamant
+  - calc_diameter_flamant
+  - calc_flow_flamant
 - title: Darcy-Weisbach Equations
   desc: Universal head loss calculations and friction factor solvers using functional
     programming.
