@@ -4,6 +4,8 @@
 <url><loc>https://joaobtj.github.io/hf/LICENSE.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/articles/darcy-weisbach-en.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/articles/darcy-weisbach-pt.html</loc></url>
+<url><loc>https://joaobtj.github.io/hf/articles/flamant-en.html</loc></url>
+<url><loc>https://joaobtj.github.io/hf/articles/flamant-pt.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/articles/friction-en.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/articles/friction-pt.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/articles/hazen-williams-en.html</loc></url>
@@ -12,13 +14,16 @@
 <url><loc>https://joaobtj.github.io/hf/authors.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/index.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_diameter_darcy.html</loc></url>
+<url><loc>https://joaobtj.github.io/hf/reference/calc_diameter_flamant.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_diameter_hw.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_flow_darcy.html</loc></url>
+<url><loc>https://joaobtj.github.io/hf/reference/calc_flow_flamant.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_flow_hw.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_friction_blasius.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_friction_cw.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_friction_sj.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_head_loss_darcy.html</loc></url>
+<url><loc>https://joaobtj.github.io/hf/reference/calc_head_loss_flamant.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/calc_head_loss_hw.html</loc></url>
 <url><loc>https://joaobtj.github.io/hf/reference/index.html</loc></url>
 </urlset>

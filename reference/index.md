@@ -12,6 +12,18 @@ Hazen-Williams formula.
 - [`calc_flow_hw()`](https://joaobtj.github.io/hf/reference/calc_flow_hw.md)
   : Calculate Flow Rate using Hazen-Williams
 
+## Flamant Equations
+
+Functions to calculate head loss, diameter, and flow for small-diameter
+pipes using the empirical Flamant formula.
+
+- [`calc_head_loss_flamant()`](https://joaobtj.github.io/hf/reference/calc_head_loss_flamant.md)
+  : Calculate Head Loss using Flamant Equation
+- [`calc_diameter_flamant()`](https://joaobtj.github.io/hf/reference/calc_diameter_flamant.md)
+  : Calculate Required Pipe Diameter using Flamant
+- [`calc_flow_flamant()`](https://joaobtj.github.io/hf/reference/calc_flow_flamant.md)
+  : Calculate Flow Rate using Flamant
+
 ## Darcy-Weisbach Equations
 
 Universal head loss calculations and friction factor solvers using
