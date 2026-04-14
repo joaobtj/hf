@@ -121,6 +121,8 @@ functional programming.
   : Calculate Friction Factor using Colebrook-White
 - [`calc_friction_sj()`](https://joaobtj.github.io/hf/reference/calc_friction_sj.md)
   : Calculate Friction Factor using Swamee-Jain
+- [`calc_friction_blasius()`](https://joaobtj.github.io/hf/reference/calc_friction_blasius.md)
+  : Calculate Friction Factor using Blasius
 
 # Articles
 
@@ -130,6 +132,10 @@ functional programming.
   Equations](https://joaobtj.github.io/hf/articles/darcy-weisbach-en.md):
 - [Equações de
   Darcy-Weisbach](https://joaobtj.github.io/hf/articles/darcy-weisbach-pt.md):
+- [Friction Factors in the hf
+  Package](https://joaobtj.github.io/hf/articles/friction-en.md):
+- [Fatores de Atrito no Pacote
+  hf](https://joaobtj.github.io/hf/articles/friction-pt.md):
 - [Hazen-Williams Head
   Loss](https://joaobtj.github.io/hf/articles/hazen-williams-en.md):
 - [Perda de Carga de
