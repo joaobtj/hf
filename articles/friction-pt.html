@@ -88,23 +88,32 @@ mais adequado ao seu problema.</p>
 <h2 id="métodos-disponíveis">Métodos Disponíveis<a class="anchor" aria-label="anchor" href="#m%C3%A9todos-dispon%C3%ADveis"></a>
 </h2>
 <div class="section level3">
-<h3 id="colebrook-white-calc_friction_cw">1. Colebrook-White (<code>calc_friction_cw</code>)<a class="anchor" aria-label="anchor" href="#colebrook-white-calc_friction_cw"></a>
+<h3 id="colebrook-white-calc_friction_cw">Colebrook-White (<code>calc_friction_cw</code>)<a class="anchor" aria-label="anchor" href="#colebrook-white-calc_friction_cw"></a>
 </h3>
 <p>Considerada a equação de referência para escoamento turbulento em
 tubos rugosos. Por ser implícita, o pacote utiliza o método de
 <code>uniroot</code> para encontrar a solução exata.</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><msqrt><mi>f</mi></msqrt></mfrac><mo>=</mo><mo>−</mo><mn>2</mn><msub><mo>log</mo><mn>10</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>ϵ</mi><mrow><mn>3.7</mn><mi>D</mi></mrow></mfrac><mo>+</mo><mfrac><mn>2.51</mn><mrow><mi>R</mi><mi>e</mi><msqrt><mi>f</mi></msqrt></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> \frac{1}{\sqrt{f}} = -2 \log_{10} \left( \frac{\epsilon}{3.7D} + \frac{2.51}{Re\sqrt{f}} \right) </annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><msqrt><mi>f</mi></msqrt></mfrac><mo>=</mo><mi>−</mi><mn>2</mn><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>ϵ</mi><mrow><mn>3.7</mn><mi>D</mi></mrow></mfrac><mo>+</mo><mfrac><mn>2.51</mn><mrow><mi>R</mi><mi>e</mi><msqrt><mi>f</mi></msqrt></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> \frac{1}{\sqrt{f}} = -2 \log_{10} \left( \frac{\epsilon}{3.7D} + \frac{2.51}{Re\sqrt{f}} \right) </annotation></semantics></math></p>
 </div>
 <div class="section level3">
-<h3 id="swamee-jain-calc_friction_sj">2. Swamee-Jain (<code>calc_friction_sj</code>)<a class="anchor" aria-label="anchor" href="#swamee-jain-calc_friction_sj"></a>
+<h3 id="swamee-jain-calc_friction_sj">Swamee-Jain (<code>calc_friction_sj</code>)<a class="anchor" aria-label="anchor" href="#swamee-jain-calc_friction_sj"></a>
 </h3>
 <p>Uma das aproximações explícitas mais precisas para a equação de
 Colebrook-White. É ideal para processamento de grandes volumes de dados
 por não exigir iteração numérica.</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mfrac><mn>0.25</mn><msup><mrow><mo stretchy="true" form="prefix">[</mo><msub><mo>log</mo><mn>10</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>ϵ</mi><mrow><mn>3.7</mn><mi>D</mi></mrow></mfrac><mo>+</mo><mfrac><mn>5.74</mn><mrow><mi>R</mi><msup><mi>e</mi><mn>0.9</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">f = \frac{0.25}{\left[ \log_{10} \left( \frac{\epsilon}{3.7D} + \frac{5.74}{Re^{0.9}} \right) \right]^2}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mfrac><mn>0.25</mn><msup><mrow><mo stretchy="true" form="prefix">[</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>ϵ</mi><mrow><mn>3.7</mn><mi>D</mi></mrow></mfrac><mo>+</mo><mfrac><mn>5.74</mn><mrow><mi>R</mi><msup><mi>e</mi><mn>0.9</mn></msup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">f = \frac{0.25}{\left[ \log_{10} \left( \frac{\epsilon}{3.7D} + \frac{5.74}{Re^{0.9}} \right) \right]^2}</annotation></semantics></math></p>
 </div>
 <div class="section level3">
-<h3 id="blasius-calc_friction_blasius">3. Blasius (<code>calc_friction_blasius</code>)<a class="anchor" aria-label="anchor" href="#blasius-calc_friction_blasius"></a>
+<h3 id="haaland-calc_friction_haaland">Haaland (<code>calc_friction_haaland</code>)<a class="anchor" aria-label="anchor" href="#haaland-calc_friction_haaland"></a>
+</h3>
+<p>A equação de Haaland é uma excelente alternativa explícita à equação
+de Colebrook-White. Oferece uma precisão bastante elevada para
+escoamentos turbulentos sem a necessidade de recorrer a iteração
+numérica.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><msqrt><mi>f</mi></msqrt></mfrac><mo>=</mo><mi>−</mi><mn>1.8</mn><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><mrow><mo stretchy="true" form="prefix">[</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>ϵ</mi><mrow><mn>3.7</mn><mi>D</mi></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mn>1.11</mn></msup><mo>+</mo><mfrac><mn>6.9</mn><mrow><mi>R</mi><mi>e</mi></mrow></mfrac><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{1}{\sqrt{f}} = -1.8 \log_{10} \left[ \left( \frac{\epsilon}{3.7D} \right)^{1.11} + \frac{6.9}{Re} \right]</annotation></semantics></math></p>
+</div>
+<div class="section level3">
+<h3 id="blasius-calc_friction_blasius">Blasius (<code>calc_friction_blasius</code>)<a class="anchor" aria-label="anchor" href="#blasius-calc_friction_blasius"></a>
 </h3>
 <p>Indicada para tubos perfeitamente lisos (como PVC novo ou vidro) e
 números de Reynolds até

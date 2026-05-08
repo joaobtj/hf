@@ -39,6 +39,7 @@ You can install the development version of `hf` from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("joaobtj/hf")
 ```
@@ -46,6 +47,7 @@ devtools::install_github("joaobtj/hf")
 Alternatively, you can install it via R-Universe:
 
 ``` r
+
 install.packages("hf", repos = c("https://joaobtj.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
@@ -58,6 +60,7 @@ loss using different friction factor functions. By default, it uses the
 implicit Colebrook-White equation.
 
 ``` r
+
 library(hf)
 
 # Calculate head loss (m) for a 100m pipe, 0.02 m³/s flow, 0.1m diameter

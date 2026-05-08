@@ -8,20 +8,22 @@ empirical formulas like Hazen-Williams, Darcy-Weisbach applies to **any
 fluid** and **any flow regime** (laminar, transitional, or turbulent).
 
 In the `hf` package, the equation is expressed using the volumetric flow
-rate ($Q$) for consistency:
+rate ($`Q`$) for consistency:
 
-$$h_{f} = f\frac{8LQ^{2}}{\pi^{2}gD^{5}}$$
+``` math
+h_f = f \frac{8 L Q^2}{\pi^2 g D^5}
+```
 
 Where:
 
-- $h_{f}$: Friction head loss (m)
-- $f$: Darcy friction factor (dimensionless)
-- $L$: Pipe length (m)
-- $Q$: Volumetric flow rate ($m^{3}/s$)
-- $D$: Internal diameter (m)
-- $g$: Acceleration due to gravity ($m/s^{2}$)
+- $`h_f`$: Friction head loss (m)
+- $`f`$: Darcy friction factor (dimensionless)
+- $`L`$: Pipe length (m)
+- $`Q`$: Volumetric flow rate ($`m^3/s`$)
+- $`D`$: Internal diameter (m)
+- $`g`$: Acceleration due to gravity ($`m/s^2`$)
 
-## 1. The Friction Factor ($f$)
+## 1. The Friction Factor ($`f`$)
 
 The friction factor depends on the Reynolds number and the relative
 roughness of the pipe. The `hf` package provides two distinct functions
@@ -35,6 +37,7 @@ to calculate it:
   approximation that runs faster on massive datasets.
 
 ``` r
+
 # Flow parameters
 Re <- 100000        # Reynolds number
 e <- 0.00026        # Absolute roughness (m)
@@ -54,6 +57,7 @@ can *inject* the friction function you want to use via the
 `friction_fun` argument.
 
 ``` r
+
 # 1. Default approach (Uses Colebrook-White automatically)
 calc_head_loss_darcy(
   length = 100, flow = 0.02, diameter = 0.1, roughness = 0.00026
@@ -82,6 +86,7 @@ and flow rate, the `hf` package uses internal numerical solvers
 well.
 
 ``` r
+
 # Calculate the required diameter for a target head loss of 8.56m
 calc_diameter_darcy(
   loss = 8.56, length = 100, flow = 0.02, roughness = 0.00026

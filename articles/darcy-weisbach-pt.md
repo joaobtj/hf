@@ -8,20 +8,22 @@ contrário de fórmulas empíricas como a de Hazen-Williams, a equação de
 Darcy-Weisbach é aplicável a **qualquer fluido** e **qualquer regime de
 escoamento** (laminar, transição ou turbulento).
 
-No pacote `hf`, a equação baseia-se na vazão volumétrica ($Q$):
+No pacote `hf`, a equação baseia-se na vazão volumétrica ($`Q`$):
 
-$$h_{f} = f\frac{8LQ^{2}}{\pi^{2}gD^{5}}$$
+``` math
+h_f = f \frac{8 L Q^2}{\pi^2 g D^5}
+```
 
 Em que:
 
-- $h_{f}$: Perda de carga distribuída (m)
-- $f$: Fator de atrito de Darcy (adimensional)
-- $L$: Comprimento da tubulação (m)
-- $Q$: Vazão volumétrica ($m^{3}/s$)
-- $D$: Diâmetro interno (m)
-- $g$: Aceleração da gravidade ($m/s^{2}$)
+- $`h_f`$: Perda de carga distribuída (m)
+- $`f`$: Fator de atrito de Darcy (adimensional)
+- $`L`$: Comprimento da tubulação (m)
+- $`Q`$: Vazão volumétrica ($`m^3/s`$)
+- $`D`$: Diâmetro interno (m)
+- $`g`$: Aceleração da gravidade ($`m/s^2`$)
 
-## 1. O Fator de Atrito ($f$)
+## 1. O Fator de Atrito ($`f`$)
 
 O fator de atrito depende do Número de Reynolds e da rugosidade relativa
 do tubo. O pacote `hf` fornece duas funções distintas para calculá-lo:
@@ -34,6 +36,7 @@ do tubo. O pacote `hf` fornece duas funções distintas para calculá-lo:
   alta precisão que não requer iteração.
 
 ``` r
+
 # Parâmetros do escoamento
 Re <- 100000        # Número de Reynolds
 e <- 0.00026        # Rugosidade absoluta (m)
@@ -53,6 +56,7 @@ a função de atrito que deseja utilizar através do argumento
 `friction_fun`.
 
 ``` r
+
 # 1. Padrão (Usa Colebrook-White automaticamente)
 calc_head_loss_darcy(
   length = 100, flow = 0.02, diameter = 0.1, roughness = 0.00026
@@ -81,6 +85,7 @@ encontrar os valores exatos de diâmetro e vazão. A injeção funcional
 também funciona nestas funções.
 
 ``` r
+
 # Calcular o diâmetro necessário para uma perda de 8.56m
 calc_diameter_darcy(
   loss = 8.56, length = 100, flow = 0.02, roughness = 0.00026

@@ -39,5 +39,7 @@ functional programming.
   : Calculate Friction Factor using Colebrook-White
 - [`calc_friction_sj()`](https://joaobtj.github.io/hf/reference/calc_friction_sj.md)
   : Calculate Friction Factor using Swamee-Jain
+- [`calc_friction_haaland()`](https://joaobtj.github.io/hf/reference/calc_friction_haaland.md)
+  : Calculate Friction Factor using Haaland
 - [`calc_friction_blasius()`](https://joaobtj.github.io/hf/reference/calc_friction_blasius.md)
   : Calculate Friction Factor using Blasius
