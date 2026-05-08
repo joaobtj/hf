@@ -59,5 +59,6 @@ reference:
   - calc_flow_darcy
   - calc_friction_cw
   - calc_friction_sj
+  - calc_friction_haaland
   - calc_friction_blasius
 
