@@ -31,6 +31,7 @@ ui <- page_sidebar(
       condition = "input.eq_type == 'dw'",
       selectInput("f_method", "Friction Factor Method",
                   choices = c("Colebrook-White (Exact)" = "cw",
+                              "Haaland (Approximation)" = "ha",
                               "Swamee-Jain (Fast)" = "sj",
                               "Blasius (Smooth Pipes)" = "bl"))
     ),
@@ -67,32 +68,33 @@ ui <- page_sidebar(
     conditionalPanel(
       condition = "input.eq_type == 'dw'",
       numericInput("roughness", "Absolute Roughness (m)", value = 0.00026, step = 0.00001)
-    )
+    ),
+
+    hr(),
+
+    input_switch("show_plots", "View Charts", value = FALSE)
   ),
 
   layout_columns(
     col_widths = c(4, 8),
 
-    # Left column: Calculation Result Box
     div(
       value_box(
         title = uiOutput("box_title"),
         value = textOutput("calc_result"),
         showcase = bsicons::bs_icon("calculator"),
         theme = "primary"
-      )
+      ),
+      # Renderiza a caixa do fator de atrito 'f' condicionalmente
+      uiOutput("f_box")
     ),
 
-    # Right column: Stacked Plots using a nested layout
-    layout_columns(
-      col_widths = 12,
-      card(
-        card_header("System Curve (Head Loss vs. Flow Rate)"),
-        plotOutput("plot_sys", height = "350px")
-      ),
-      card(
-        card_header("Friction Sensitivity (Head Loss vs. Pipe Diameter)"),
-        plotOutput("plot_diam", height = "350px")
+    conditionalPanel(
+      condition = "input.show_plots == true",
+      navset_card_underline(
+        title = "System Analysis",
+        nav_panel("System Curve", plotOutput("plot_sys", height = "400px")),
+        nav_panel("Friction Sensitivity", plotOutput("plot_diam", height = "400px"))
       )
     )
   )
@@ -107,42 +109,66 @@ server <- function(input, output, session) {
            "diameter" = "Required Diameter")
   })
 
+  get_f_fun <- reactive({
+    switch(input$f_method,
+           "cw" = calc_friction_cw,
+           "ha" = calc_friction_haaland,
+           "sj" = calc_friction_sj,
+           "bl" = calc_friction_blasius)
+  })
+
+  calc_hl <- function(l, q, d) {
+    if (input$eq_type == "hw") {
+      calc_head_loss_hw(length = l, flow = q, diameter = d, coef = input$c_coef)
+    } else if (input$eq_type == "fl") {
+      calc_head_loss_flamant(length = l, flow = q, diameter = d, coef = input$b_coef)
+    } else {
+      calc_head_loss_darcy(length = l, flow = q, diameter = d, roughness = input$roughness, friction_fun = get_f_fun())
+    }
+  }
+
   sys_calc <- reactive({
     req(input$length)
     if (input$target_var != "loss") req(input$head_loss)
     if (input$target_var != "diameter") req(input$diameter)
     if (input$target_var != "flow") req(input$flow)
 
+    f_val <- NA # Inicializa o fator de atrito
+
     if (input$eq_type == "hw") {
       req(input$c_coef)
       val <- switch(input$target_var,
-                    "loss" = calc_head_loss_hw(length = input$length, flow = input$flow, diameter = input$diameter, coef = input$c_coef),
+                    "loss" = calc_hl(input$length, input$flow, input$diameter),
                     "flow" = calc_flow_hw(loss = input$head_loss, length = input$length, diameter = input$diameter, coef = input$c_coef),
                     "diameter" = calc_diameter_hw(loss = input$head_loss, length = input$length, flow = input$flow, coef = input$c_coef))
     } else if (input$eq_type == "fl") {
       req(input$b_coef)
       val <- switch(input$target_var,
-                    "loss" = calc_head_loss_flamant(length = input$length, flow = input$flow, diameter = input$diameter, coef = input$b_coef),
+                    "loss" = calc_hl(input$length, input$flow, input$diameter),
                     "flow" = calc_flow_flamant(loss = input$head_loss, length = input$length, diameter = input$diameter, coef = input$b_coef),
                     "diameter" = calc_diameter_flamant(loss = input$head_loss, length = input$length, flow = input$flow, coef = input$b_coef))
     } else {
       req(input$roughness)
-      f_fun <- switch(input$f_method,
-                      "cw" = calc_friction_cw,
-                      "sj" = calc_friction_sj,
-                      "bl" = calc_friction_blasius)
-
       val <- switch(input$target_var,
-                    "loss" = calc_head_loss_darcy(length = input$length, flow = input$flow, diameter = input$diameter, roughness = input$roughness, friction_fun = f_fun),
-                    "flow" = calc_flow_darcy(loss = input$head_loss, length = input$length, diameter = input$diameter, roughness = input$roughness, friction_fun = f_fun),
-                    "diameter" = calc_diameter_darcy(loss = input$head_loss, length = input$length, flow = input$flow, roughness = input$roughness, friction_fun = f_fun))
+                    "loss" = calc_hl(input$length, input$flow, input$diameter),
+                    "flow" = calc_flow_darcy(loss = input$head_loss, length = input$length, diameter = input$diameter, roughness = input$roughness, friction_fun = get_f_fun()),
+                    "diameter" = calc_diameter_darcy(loss = input$head_loss, length = input$length, flow = input$flow, roughness = input$roughness, friction_fun = get_f_fun()))
+
+      q_op <- if(input$target_var == "flow") val else input$flow
+      hl_op <- if(input$target_var == "loss") val else input$head_loss
+      d_op <- if(input$target_var == "diameter") val else input$diameter
+
+      area <- pi * (d_op / 2)^2
+      vel <- q_op / area
+      f_val <- (hl_op * d_op * 2 * 9.81) / (input$length * vel^2)
     }
 
     list(
       result = val,
       op_flow = if(input$target_var == "flow") val else input$flow,
       op_loss = if(input$target_var == "loss") val else input$head_loss,
-      op_diam = if(input$target_var == "diameter") val else input$diameter
+      op_diam = if(input$target_var == "diameter") val else input$diameter,
+      f_val = f_val
     )
   })
 
@@ -152,24 +178,26 @@ server <- function(input, output, session) {
     paste0(round(res, 4), unit)
   })
 
-  # PLOT 1: System Curve (Flow vs. Head Loss)
+  output$f_box <- renderUI({
+    res <- sys_calc()
+    if (input$eq_type == "dw" && !is.na(res$f_val)) {
+      div(class = "mt-3",
+          value_box(
+            title = "Friction Factor (f)",
+            value = round(res$f_val, 5),
+            showcase = bsicons::bs_icon("moisture"),
+            theme = "info"
+          )
+      )
+    }
+  })
+
   output$plot_sys <- renderPlot({
     req(sys_calc())
     op <- sys_calc()
 
     flow_seq <- seq(0.001, op$op_flow * 2, length.out = 100)
-
-    if (input$eq_type == "hw") {
-      y_seq <- calc_head_loss_hw(length = input$length, flow = flow_seq, diameter = op$op_diam, coef = input$c_coef)
-    } else if (input$eq_type == "fl") {
-      y_seq <- calc_head_loss_flamant(length = input$length, flow = flow_seq, diameter = op$op_diam, coef = input$b_coef)
-    } else {
-      f_fun <- switch(input$f_method,
-                      "cw" = calc_friction_cw,
-                      "sj" = calc_friction_sj,
-                      "bl" = calc_friction_blasius)
-      y_seq <- calc_head_loss_darcy(length = input$length, flow = flow_seq, diameter = op$op_diam, roughness = input$roughness, friction_fun = f_fun)
-    }
+    y_seq <- calc_hl(input$length, flow_seq, op$op_diam)
 
     par(mar = c(5, 5, 2, 2))
     plot(flow_seq, y_seq, type = "l", lwd = 3, col = "#2C3E50",
@@ -180,24 +208,12 @@ server <- function(input, output, session) {
     text(op$op_flow, op$op_loss, labels = "Operating Point", pos = 3, offset = 1, col = "#E74C3C", font = 2)
   })
 
-  # PLOT 2: Friction Sensitivity (Diameter vs. Head Loss)
   output$plot_diam <- renderPlot({
     req(sys_calc())
     op <- sys_calc()
 
     diam_seq <- seq(op$op_diam * 0.5, op$op_diam * 2, length.out = 100)
-
-    if (input$eq_type == "hw") {
-      y_seq <- calc_head_loss_hw(length = input$length, flow = op$op_flow, diameter = diam_seq, coef = input$c_coef)
-    } else if (input$eq_type == "fl") {
-      y_seq <- calc_head_loss_flamant(length = input$length, flow = op$op_flow, diameter = diam_seq, coef = input$b_coef)
-    } else {
-      f_fun <- switch(input$f_method,
-                      "cw" = calc_friction_cw,
-                      "sj" = calc_friction_sj,
-                      "bl" = calc_friction_blasius)
-      y_seq <- calc_head_loss_darcy(length = input$length, flow = op$op_flow, diameter = diam_seq, roughness = input$roughness, friction_fun = f_fun)
-    }
+    y_seq <- calc_hl(input$length, op$op_flow, diam_seq)
 
     par(mar = c(5, 5, 2, 2))
     plot(diam_seq, y_seq, type = "l", lwd = 3, col = "#8E44AD",
