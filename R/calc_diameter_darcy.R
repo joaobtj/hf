@@ -14,16 +14,16 @@
 #' # Find diameter using the default Colebrook-White function
 #' calc_diameter_darcy(loss = 5, length = 100, flow = 0.02, roughness = 0.00026)
 #'
-#' # Find diameter by injecting Swamee-Jain
-#' calc_diameter_darcy(
-#'   loss = 5, length = 100, flow = 0.02, roughness = 0.00026,
-#'   friction_fun = calc_friction_sj
-#' )
+#' # Find diameter passing flow in m3/h
+#' calc_diameter_darcy(loss = 5, length = 100, flow = 72, roughness = 0.00026, flow_unit = "m3/h")
 #'
 calc_diameter_darcy <- Vectorize(
   function(loss, length, flow, roughness,
            friction_fun = NULL,
-           viscosity = 1.004e-6, gravity = 9.81) {
+           viscosity = 1.004e-6, gravity = 9.81,
+           flow_unit = "m3/s") {
+    flow_m3s <- convert_flow_unit(flow, flow_unit = flow_unit, to_m3s = TRUE)
+
     # Default to Colebrook-White if no function is provided
     if (is.null(friction_fun)) {
       friction_fun <- calc_friction_cw
@@ -33,12 +33,13 @@ calc_diameter_darcy <- Vectorize(
     obj_fun <- function(d) {
       calc_head_loss_darcy(
         length = length,
-        flow = flow,
+        flow = flow_m3s,
         diameter = d,
         roughness = roughness,
         friction_fun = friction_fun,
         viscosity = viscosity,
-        gravity = gravity
+        gravity = gravity,
+        flow_unit = "m3/s"
       ) - loss
     }
 
@@ -46,5 +47,5 @@ calc_diameter_darcy <- Vectorize(
     result <- stats::uniroot(obj_fun, interval = c(0.001, 10), tol = 1e-7)
     return(result$root)
   },
-  vectorize.args = c("loss", "length", "flow", "roughness") # <- PREVENTS 'friction_fun' FROM BEING VECTORIZED
+  vectorize.args = c("loss", "length", "flow", "roughness")
 )

@@ -11,7 +11,8 @@ calc_diameter_darcy(
   roughness,
   friction_fun = NULL,
   viscosity = 1.004e-06,
-  gravity = 9.81
+  gravity = 9.81,
+  flow_unit = "m3/s"
 )
 }
 \arguments{
@@ -19,7 +20,7 @@ calc_diameter_darcy(
 
 \item{length}{Numeric. The length of the pipe (meters).}
 
-\item{flow}{Numeric. The volumetric flow rate (cubic meters per second).}
+\item{flow}{Numeric. The volumetric flow rate in the unit specified by \code{flow_unit} (default is \code{"m3/s"}).}
 
 \item{roughness}{Numeric. The absolute internal roughness of the pipe (meters). Required unless \code{friction_factor} is provided.}
 
@@ -28,6 +29,8 @@ calc_diameter_darcy(
 \item{viscosity}{Numeric. Kinematic viscosity of the fluid (sq. meters per sec). Default is 1.004e-6.}
 
 \item{gravity}{Numeric. Acceleration due to gravity (meters per second squared). Default is 9.81.}
+
+\item{flow_unit}{Character. Unit of the volumetric flow rate. Options include \code{"m3/s"} (default), \code{"m3/min"}, \code{"m3/h"}, \code{"m3/d"}, \code{"L/s"}, \code{"L/min"}, \code{"L/h"}, and \code{"L/d"}.}
 }
 \value{
 A numeric vector representing the required internal diameter in meters.
@@ -41,10 +44,7 @@ any friction factor calculation function.
 # Find diameter using the default Colebrook-White function
 calc_diameter_darcy(loss = 5, length = 100, flow = 0.02, roughness = 0.00026)
 
-# Find diameter by injecting Swamee-Jain
-calc_diameter_darcy(
-  loss = 5, length = 100, flow = 0.02, roughness = 0.00026,
-  friction_fun = calc_friction_sj
-)
+# Find diameter passing flow in m3/h
+calc_diameter_darcy(loss = 5, length = 100, flow = 72, roughness = 0.00026, flow_unit = "m3/h")
 
 }

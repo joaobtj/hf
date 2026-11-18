@@ -4,17 +4,19 @@
 \alias{calc_diameter_hw}
 \title{Calculate Required Pipe Diameter using Hazen-Williams}
 \usage{
-calc_diameter_hw(loss, length, flow, coef = 140)
+calc_diameter_hw(loss, length, flow, coef = 140, flow_unit = "m3/s")
 }
 \arguments{
 \item{loss}{Numeric. The target friction head loss (meters).}
 
 \item{length}{Numeric. The length of the pipe (meters).}
 
-\item{flow}{Numeric. The volumetric flow rate (cubic meters per second).}
+\item{flow}{Numeric. The volumetric flow rate in the unit specified by \code{flow_unit} (default is \code{"m3/s"}).}
 
 \item{coef}{Numeric. The Hazen-Williams roughness coefficient (dimensionless).
 Default is 140, which is typical for PVC pipes.}
+
+\item{flow_unit}{Character. Unit of the volumetric flow rate. Options include \code{"m3/s"} (default), \code{"m3/min"}, \code{"m3/h"}, \code{"m3/d"}, \code{"L/s"}, \code{"L/min"}, \code{"L/h"}, and \code{"L/d"}.}
 }
 \value{
 A numeric vector representing the required internal diameter in meters.
@@ -25,7 +27,8 @@ target head loss, length, flow rate, and roughness coefficient based on the
 Hazen-Williams (\code{hw}) equation.
 }
 \examples{
-# Find diameter for a 100m pipe with 2m allowable head loss, 0.02 m^3/s flow (C = 140)
+# Find diameter for a 100m pipe with 2m allowable head loss, 20 L/s flow (C = 140)
 calc_diameter_hw(loss = 2, length = 100, flow = 0.02)
+calc_diameter_hw(loss = 2, length = 100, flow = 20, flow_unit = "L/s")
 
 }

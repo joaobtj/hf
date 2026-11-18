@@ -4,7 +4,7 @@
 \alias{calc_flow_hw}
 \title{Calculate Flow Rate using Hazen-Williams}
 \usage{
-calc_flow_hw(loss, length, diameter, coef = 140)
+calc_flow_hw(loss, length, diameter, coef = 140, flow_unit = "m3/s")
 }
 \arguments{
 \item{loss}{Numeric. The friction head loss (meters).}
@@ -15,9 +15,11 @@ calc_flow_hw(loss, length, diameter, coef = 140)
 
 \item{coef}{Numeric. The Hazen-Williams roughness coefficient (dimensionless).
 Default is 140, which is typical for PVC pipes.}
+
+\item{flow_unit}{Character. Unit of the volumetric flow rate. Options include \code{"m3/s"} (default), \code{"m3/min"}, \code{"m3/h"}, \code{"m3/d"}, \code{"L/s"}, \code{"L/min"}, \code{"L/h"}, and \code{"L/d"}.}
 }
 \value{
-A numeric vector representing the volumetric flow rate in cubic meters per second.
+A numeric vector representing the volumetric flow rate in the unit specified by \code{flow_unit} (default is \code{"m3/s"}).
 }
 \description{
 Calculates the volumetric flow rate in a pipe given a specific
@@ -27,5 +29,6 @@ Hazen-Williams (\code{hw}) equation.
 \examples{
 # Find flow rate for a 100m pipe with 0.1m diameter, C = 140, and 2m head loss
 calc_flow_hw(loss = 2, length = 100, diameter = 0.1)
+calc_flow_hw(loss = 2, length = 100, diameter = 0.1, flow_unit = "L/s")
 
 }

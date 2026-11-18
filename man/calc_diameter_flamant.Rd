@@ -4,17 +4,19 @@
 \alias{calc_diameter_flamant}
 \title{Calculate Required Pipe Diameter using Flamant}
 \usage{
-calc_diameter_flamant(loss, length, flow, coef = 0.000135)
+calc_diameter_flamant(loss, length, flow, coef = 0.000135, flow_unit = "m3/s")
 }
 \arguments{
 \item{loss}{Numeric. The target friction head loss (meters).}
 
 \item{length}{Numeric. The length of the pipe (meters).}
 
-\item{flow}{Numeric. The volumetric flow rate (cubic meters per second).}
+\item{flow}{Numeric. The volumetric flow rate in the unit specified by \code{flow_unit} (default is \code{"m3/s"}).}
 
 \item{coef}{Numeric. The Flamant roughness coefficient (\code{b}).
 Default is 0.000135, which is typical for smooth plastic pipes (e.g., PVC, PE).}
+
+\item{flow_unit}{Character. Unit of the volumetric flow rate. Options include \code{"m3/s"} (default), \code{"m3/min"}, \code{"m3/h"}, \code{"m3/d"}, \code{"L/s"}, \code{"L/min"}, \code{"L/h"}, and \code{"L/d"}.}
 }
 \value{
 A numeric vector representing the required internal diameter in meters.
@@ -24,7 +26,8 @@ Calculates the required internal pipe diameter given a specific
 target head loss, length, flow rate, and Flamant roughness coefficient.
 }
 \examples{
-# Find diameter for a 50m pipe with 1.5m allowable head loss and 0.0002 m^3/s flow
+# Find diameter for a 50m pipe with 1.5m allowable head loss and 0.2 L/s flow
 calc_diameter_flamant(loss = 1.5, length = 50, flow = 0.0002)
+calc_diameter_flamant(loss = 1.5, length = 50, flow = 0.2, flow_unit = "L/s")
 
 }

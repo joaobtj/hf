@@ -11,7 +11,8 @@ calc_flow_darcy(
   roughness,
   friction_fun = NULL,
   viscosity = 1.004e-06,
-  gravity = 9.81
+  gravity = 9.81,
+  flow_unit = "m3/s"
 )
 }
 \arguments{
@@ -28,9 +29,11 @@ calc_flow_darcy(
 \item{viscosity}{Numeric. Kinematic viscosity of the fluid (sq. meters per sec). Default is 1.004e-6.}
 
 \item{gravity}{Numeric. Acceleration due to gravity (meters per second squared). Default is 9.81.}
+
+\item{flow_unit}{Character. Unit of the volumetric flow rate. Options include \code{"m3/s"} (default), \code{"m3/min"}, \code{"m3/h"}, \code{"m3/d"}, \code{"L/s"}, \code{"L/min"}, \code{"L/h"}, and \code{"L/d"}.}
 }
 \value{
-A numeric vector representing the volumetric flow rate in cubic meters per second.
+A numeric vector representing the volumetric flow rate in the unit specified by \code{flow_unit} (default is \code{"m3/s"}).
 }
 \description{
 Calculates the volumetric flow rate iteratively given a specific
@@ -38,13 +41,10 @@ head loss. This function uses a functional programming approach, allowing the
 injection of any friction factor function (e.g., Colebrook-White).
 }
 \examples{
-# Default: Uses Colebrook-White to find the flow rate
+# Default: Returns flow rate in m3/s
 calc_flow_darcy(loss = 5, length = 100, diameter = 0.1, roughness = 0.00026)
 
-# Injecting Swamee-Jain function
-calc_flow_darcy(
-  loss = 5, length = 100, diameter = 0.1, roughness = 0.00026,
-  friction_fun = calc_friction_sj
-)
+# Returning flow rate in L/s
+calc_flow_darcy(loss = 5, length = 100, diameter = 0.1, roughness = 0.00026, flow_unit = "L/s")
 
 }

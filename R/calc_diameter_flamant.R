@@ -10,10 +10,12 @@
 #' @export
 #'
 #' @examples
-#' # Find diameter for a 50m pipe with 1.5m allowable head loss and 0.0002 m^3/s flow
+#' # Find diameter for a 50m pipe with 1.5m allowable head loss and 0.2 L/s flow
 #' calc_diameter_flamant(loss = 1.5, length = 50, flow = 0.0002)
+#' calc_diameter_flamant(loss = 1.5, length = 50, flow = 0.2, flow_unit = "L/s")
 #'
-calc_diameter_flamant <- function(loss, length, flow, coef = 0.000135) {
+calc_diameter_flamant <- function(loss, length, flow, coef = 0.000135, flow_unit = "m3/s") {
+  flow <- convert_flow_unit(flow, flow_unit = flow_unit, to_m3s = TRUE)
   diameter <- ((6.107 * coef * length * flow^1.75) / loss)^(1 / 4.75)
   return(diameter)
 }

@@ -4,17 +4,25 @@
 \alias{calc_head_loss_flamant}
 \title{Calculate Head Loss using Flamant Equation}
 \usage{
-calc_head_loss_flamant(length, flow, diameter, coef = 0.000135)
+calc_head_loss_flamant(
+  length,
+  flow,
+  diameter,
+  coef = 0.000135,
+  flow_unit = "m3/s"
+)
 }
 \arguments{
 \item{length}{Numeric. The length of the pipe (meters).}
 
-\item{flow}{Numeric. The volumetric flow rate (cubic meters per second).}
+\item{flow}{Numeric. The volumetric flow rate in the unit specified by \code{flow_unit} (default is \code{"m3/s"}).}
 
 \item{diameter}{Numeric. The internal diameter of the pipe (meters).}
 
 \item{coef}{Numeric. The Flamant roughness coefficient (\code{b}).
 Default is 0.000135, which is typical for smooth plastic pipes (e.g., PVC, PE).}
+
+\item{flow_unit}{Character. Unit of the volumetric flow rate. Options include \code{"m3/s"} (default), \code{"m3/min"}, \code{"m3/h"}, \code{"m3/d"}, \code{"L/s"}, \code{"L/min"}, \code{"L/h"}, and \code{"L/d"}.}
 }
 \value{
 A numeric vector representing the head loss in meters.
@@ -27,5 +35,6 @@ pipes (typically < 50 mm) commonly used in micro-irrigation systems.
 \examples{
 # Calculate head loss for a 50m PE pipe with 15mm diameter and 0.2 L/s flow
 calc_head_loss_flamant(length = 50, flow = 0.0002, diameter = 0.015)
+calc_head_loss_flamant(length = 50, flow = 0.2, diameter = 0.015, flow_unit = "L/s")
 
 }
