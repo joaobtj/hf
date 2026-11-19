@@ -4,7 +4,7 @@
 \alias{calc_flow_flamant}
 \title{Calculate Flow Rate using Flamant}
 \usage{
-calc_flow_flamant(loss, length, diameter, coef = 0.000135)
+calc_flow_flamant(loss, length, diameter, coef = 0.000135, flow_unit = "m3/s")
 }
 \arguments{
 \item{loss}{Numeric. The friction head loss (meters).}
@@ -15,9 +15,11 @@ calc_flow_flamant(loss, length, diameter, coef = 0.000135)
 
 \item{coef}{Numeric. The Flamant roughness coefficient (\code{b}).
 Default is 0.000135, which is typical for smooth plastic pipes (e.g., PVC, PE).}
+
+\item{flow_unit}{Character. Unit of the volumetric flow rate. Options include \code{"m3/s"} (default), \code{"m3/min"}, \code{"m3/h"}, \code{"m3/d"}, \code{"L/s"}, \code{"L/min"}, \code{"L/h"}, and \code{"L/d"}.}
 }
 \value{
-A numeric vector representing the volumetric flow rate in cubic meters per second.
+A numeric vector representing the volumetric flow rate in the unit specified by \code{flow_unit} (default is \code{"m3/s"}).
 }
 \description{
 Calculates the volumetric flow rate in a pipe given a specific
@@ -26,5 +28,6 @@ head loss, length, internal diameter, and Flamant coefficient.
 \examples{
 # Find maximum flow rate for a 50m pipe with 15mm diameter and 1.5m head loss
 calc_flow_flamant(loss = 1.5, length = 50, diameter = 0.015)
+calc_flow_flamant(loss = 1.5, length = 50, diameter = 0.015, flow_unit = "L/h")
 
 }
