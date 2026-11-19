@@ -1,7 +1,7 @@
 # Calculate Head Loss using Darcy-Weisbach
 
 Calculates the friction head loss in a pipe based on the universal
-Darcy-Weisbach equation. This function allowing the user to inject any
+Darcy-Weisbach equation. This function allows the user to inject any
 friction factor calculation function (e.g., Colebrook-White or
 Swamee-Jain). Alternatively, a pre-calculated friction factor can be
 provided directly.
@@ -17,7 +17,8 @@ calc_head_loss_darcy(
   friction_factor = NULL,
   friction_fun = NULL,
   viscosity = 1.004e-06,
-  gravity = 9.81
+  gravity = 9.81,
+  flow_unit = "m3/s"
 )
 ```
 
@@ -29,7 +30,8 @@ calc_head_loss_darcy(
 
 - flow:
 
-  Numeric. The volumetric flow rate (cubic meters per second).
+  Numeric. The volumetric flow rate in the unit specified by `flow_unit`
+  (default is `"m3/s"`).
 
 - diameter:
 
@@ -61,6 +63,12 @@ calc_head_loss_darcy(
   Numeric. Acceleration due to gravity (meters per second squared).
   Default is 9.81.
 
+- flow_unit:
+
+  Character. Unit of the volumetric flow rate. Options include `"m3/s"`
+  (default), `"m3/min"`, `"m3/h"`, `"m3/d"`, `"L/s"`, `"L/min"`,
+  `"L/h"`, and `"L/d"`.
+
 ## Value
 
 A numeric vector representing the head loss in meters.
@@ -68,11 +76,18 @@ A numeric vector representing the head loss in meters.
 ## Examples
 
 ``` r
-# 1. Default: Uses Colebrook-White function automatically
+# 1. Default: Uses Colebrook-White function automatically (flow in m3/s)
 calc_head_loss_darcy(length = 100, flow = 0.02, diameter = 0.1, roughness = 0.00026)
 #> [1] 8.513127
 
-# 2. Functional Injection: Pass the Swamee-Jain function as an argument
+# 2. Passing flow rate in L/s
+calc_head_loss_darcy(
+  length = 100, flow = 20, diameter = 0.1, roughness = 0.00026,
+  flow_unit = "L/s"
+)
+#> [1] 8.513127
+
+# 3. Functional Injection: Pass the Swamee-Jain function as an argument
 calc_head_loss_darcy(
   length = 100,
   flow = 0.02,
@@ -82,7 +97,7 @@ calc_head_loss_darcy(
 )
 #> [1] 8.55815
 
-# 3. Direct Value: Provide the friction factor manually
+# 4. Direct Value: Provide the friction factor manually
 calc_head_loss_darcy(length = 100, flow = 0.02, diameter = 0.1, friction_factor = 0.02)
 #> [1] 6.610149
 ```

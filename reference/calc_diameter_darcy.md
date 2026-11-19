@@ -14,7 +14,8 @@ calc_diameter_darcy(
   roughness,
   friction_fun = NULL,
   viscosity = 1.004e-06,
-  gravity = 9.81
+  gravity = 9.81,
+  flow_unit = "m3/s"
 )
 ```
 
@@ -30,7 +31,8 @@ calc_diameter_darcy(
 
 - flow:
 
-  Numeric. The volumetric flow rate (cubic meters per second).
+  Numeric. The volumetric flow rate in the unit specified by `flow_unit`
+  (default is `"m3/s"`).
 
 - roughness:
 
@@ -53,6 +55,12 @@ calc_diameter_darcy(
   Numeric. Acceleration due to gravity (meters per second squared).
   Default is 9.81.
 
+- flow_unit:
+
+  Character. Unit of the volumetric flow rate. Options include `"m3/s"`
+  (default), `"m3/min"`, `"m3/h"`, `"m3/d"`, `"L/s"`, `"L/min"`,
+  `"L/h"`, and `"L/d"`.
+
 ## Value
 
 A numeric vector representing the required internal diameter in meters.
@@ -64,10 +72,7 @@ A numeric vector representing the required internal diameter in meters.
 calc_diameter_darcy(loss = 5, length = 100, flow = 0.02, roughness = 0.00026)
 #> [1] 0.1107086
 
-# Find diameter by injecting Swamee-Jain
-calc_diameter_darcy(
-  loss = 5, length = 100, flow = 0.02, roughness = 0.00026,
-  friction_fun = calc_friction_sj
-)
-#> [1] 0.1108447
+# Find diameter passing flow in m3/h
+calc_diameter_darcy(loss = 5, length = 100, flow = 72, roughness = 0.00026, flow_unit = "m3/h")
+#> [1] 0.1107086
 ```

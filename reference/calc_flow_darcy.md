@@ -14,7 +14,8 @@ calc_flow_darcy(
   roughness,
   friction_fun = NULL,
   viscosity = 1.004e-06,
-  gravity = 9.81
+  gravity = 9.81,
+  flow_unit = "m3/s"
 )
 ```
 
@@ -53,22 +54,25 @@ calc_flow_darcy(
   Numeric. Acceleration due to gravity (meters per second squared).
   Default is 9.81.
 
+- flow_unit:
+
+  Character. Unit of the volumetric flow rate. Options include `"m3/s"`
+  (default), `"m3/min"`, `"m3/h"`, `"m3/d"`, `"L/s"`, `"L/min"`,
+  `"L/h"`, and `"L/d"`.
+
 ## Value
 
-A numeric vector representing the volumetric flow rate in cubic meters
-per second.
+A numeric vector representing the volumetric flow rate in the unit
+specified by `flow_unit` (default is `"m3/s"`).
 
 ## Examples
 
 ``` r
-# Default: Uses Colebrook-White to find the flow rate
+# Default: Returns flow rate in m3/s
 calc_flow_darcy(loss = 5, length = 100, diameter = 0.1, roughness = 0.00026)
 #> [1] 0.01527351
 
-# Injecting Swamee-Jain function
-calc_flow_darcy(
-  loss = 5, length = 100, diameter = 0.1, roughness = 0.00026,
-  friction_fun = calc_friction_sj
-)
-#> [1] 0.01522819
+# Returning flow rate in L/s
+calc_flow_darcy(loss = 5, length = 100, diameter = 0.1, roughness = 0.00026, flow_unit = "L/s")
+#> [1] 15.27351
 ```

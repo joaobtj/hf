@@ -1,5 +1,5 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   darcy-weisbach-en: darcy-weisbach-en.html
@@ -10,7 +10,7 @@ articles:
   friction-pt: friction-pt.html
   hazen-williams-en: hazen-williams-en.html
   hazen-williams-pt: hazen-williams-pt.html
-last_built: 2026-05-11T17:29Z
+last_built: 2026-11-19T16:09Z
 urls:
   reference: https://joaobtj.github.io/hf/reference
   article: https://joaobtj.github.io/hf/articles
